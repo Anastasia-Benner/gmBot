@@ -5,24 +5,24 @@ class Wrapper:
 
     base = 'https://api.groupme.com/v3'
 
-    def ___init__(self, token, bot_id, group_id):
-        self.token = token
+    def __init__(self, access_token, bot_id, group_id, **kwargs):
+        self.token = access_token
         self.bot_id = bot_id
         self.group_id = group_id
 
 
     def send_message(self, text, attachments=None): ### TODO: implement attachments
-        url = base + '/bots/post'
+        url = self.base + '/bots/post'
 
         payload = {}
-        payload['bot_id'] = bot_id
+        payload['bot_id'] = self.bot_id
         payload['text'] = text
 
         requests.post(url, data=payload)
 
 
     def get_last_message(self):
-        url = base + f'/groups/{self.group_id}/messages'
+        url = self.base + f'/groups/{self.group_id}/messages'
 
         payload = {}
         payload['limit'] = 1
@@ -34,7 +34,7 @@ class Wrapper:
 
 
     def get_group(self):
-        url = base + f'/groups/{self.group_id}'
+        url = self.base + f'/groups/{self.group_id}'
 
         payload = {}
         payload['token'] = self.token
@@ -49,7 +49,7 @@ class Wrapper:
 
 
     def get_all_messages(self):
-        url = base + f'/groups/{self.group_id}/messages'
+        url = self.base + f'/groups/{self.group_id}/messages'
 
         payload = {}
         payload['limit'] = 100
@@ -57,8 +57,8 @@ class Wrapper:
 
         all_messages = []
         looking = True
-
-        while looking
+        ## TODO: make this less scary
+        while looking:
             time.sleep(1)
             r = requests.get(url, params=payload)
 
