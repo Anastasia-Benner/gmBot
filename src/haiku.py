@@ -1,13 +1,15 @@
 from nltk.corpus import cmudict
 from numpy import random
 import pandas as pd
+from action import Action
 
 
-class Haiku:
+class Haiku(Action):
 
 
 
     def __init__(self, seven_file, five_file):
+        super().__init__('%haiku', "Sends a haiku made from your chat!")
         self.sevens = seven_file
         self.fives = five_file
         self.word_dictionary = cmudict.dict()
@@ -64,8 +66,11 @@ class Haiku:
         else:
             return
 
-        with open(path, 'a') as f:
-            f.write(line.replace('\n', ' ') + '\n')
+        try:
+            with open(path, 'a') as f:
+                f.write(line.replace('\n', ' ') + '\n')
+        except:
+            pass
 
 
     def pick_lines(self, path, n=None):
@@ -78,4 +83,12 @@ class Haiku:
         first, third = self.pick_lines(self.fives, 2)
         second = self.pick_lines(self.sevens)
 
-        return f"{first}\n{second}\n{third}"
+        return f"{first}{second}{third}" #file already contains newline characters
+
+
+    def do(self):
+        return write_haiku()
+
+
+    def preprocess(self, message):
+        self.save_line(message)

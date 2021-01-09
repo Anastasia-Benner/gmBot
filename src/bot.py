@@ -23,4 +23,9 @@ class Bot:
 
     def process(self, message):
         for action in self.actions:
-            action.process(message)
+
+            action.preprocess(message) #perform action on all messages
+
+            response = action.process(message) #respond to specific calls
+            if response is not '' or response is not None
+                self.wrapper.send_message(response)

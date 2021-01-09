@@ -25,3 +25,7 @@ class Action: #lawsuit haha get it
         if self.check(message):
             args = self.parse(message)
             self.do(*args)
+
+
+    def preprocess(self, message):
+        pass
